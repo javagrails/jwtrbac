@@ -1,0 +1,43 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.jwtrbac.app",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.9.1",
+    "applicationType": "monolith",
+    "baseName": "jwtrbac",
+    "packageName": "com.jwtrbac.app",
+    "packageFolder": "com/jwtrbac/app",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "Mjg2OTgwOGE1ODdmZTUyNWU5NDAzYmMxNmZjY2UxMTAwYWM2ZDI0YjUyMDYzYWRkYzE3OTkxMjA3MDAzNDA1ODFlNjJkZGNhZTFjMWVlYzQwNzVjMzYxYmE4Mjg1YmZkY2FjZjM2ZTNkMWQzMTRmYTc3ZjdlNjU1ZTM0OGRjNDQ=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1591448453132,
+    "testFrameworks": ["gatling", "cucumber", "protractor"],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": ["en", "ar-ly", "bn"],
+    "blueprints": []
+  }
+}
