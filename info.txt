@@ -1,0 +1,148 @@
+https://github.com/javagrails/sql-to-jdl
+
+
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+user@userpc:~/hubsalman $ git clone git@github.com-javagrails:javagrails/jwtrbac.git
+Cloning into 'jwtrbac'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), done.
+Checking connectivity... done.
+user@userpc:~/hubsalman $ cd jwtrbac/
+user@userpc:~/hubsalman/jwtrbac (master) $
+user@userpc:~/hubsalman/jwtrbac (master) $ git config --list
+user.name=sAlEh
+user.email=saleh@default-git-account.com
+color.ui=auto
+core.excludesfile=/home/salman/.gitignore_global
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=git@github.com-javagrails:javagrails/jwtrbac.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+user@userpc:~/hubsalman/jwtrbac (master) $ git config user.email "salman1m22@gmail.com"
+user@userpc:~/hubsalman/jwtrbac (master) $ git config user.name "salman_at_github"
+user@userpc:~/hubsalman/jwtrbac (master) $ git remote -v
+origin	git@github.com-javagrails:javagrails/jwtrbac.git (fetch)
+origin	git@github.com-javagrails:javagrails/jwtrbac.git (push)
+user@userpc:~/hubsalman/jwtrbac (master) $ git config --list
+user.name=sAlEh
+user.email=saleh@default-git-account.com
+color.ui=auto
+core.excludesfile=/home/salman/.gitignore_global
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=git@github.com-javagrails:javagrails/jwtrbac.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+user.email=salman1m22@gmail.com
+user.name=salman_at_github
+user@userpc:~/hubsalman/jwtrbac (master) $ git branch
+* master
+user@userpc:~/hubsalman/jwtrbac (master) $ git checkout -b develop
+Switched to a new branch 'develop'
+user@userpc:~/hubsalman/jwtrbac (develop) $ git branch
+* develop
+  master
+user@userpc:~/hubsalman/jwtrbac (develop) $ ga
+user@userpc:~/hubsalman/jwtrbac (develop) $ gst
+On branch develop
+nothing to commit, working directory clean
+user@userpc:~/hubsalman/jwtrbac (develop) $ gc "dev branch created"
+On branch develop
+nothing to commit, working directory clean
+user@userpc:~/hubsalman/jwtrbac (develop) $ ga
+user@userpc:~/hubsalman/jwtrbac (develop) $ gst
+On branch develop
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   README.md
+
+user@userpc:~/hubsalman/jwtrbac (develop) $ gc "develop branch created"
+[develop 3e5e2df] develop branch created
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+user@userpc:~/hubsalman/jwtrbac (develop) $ gp develop
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 288 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote:
+remote: Create a pull request for 'develop' on GitHub by visiting:
+remote:      https://github.com/javagrails/jwtrbac/pull/new/develop
+remote:
+To git@github.com-javagrails:javagrails/jwtrbac.git
+ * [new branch]      develop -> develop
+user@userpc:~/hubsalman/jwtrbac (develop) $ git remote -v
+origin	git@github.com-javagrails:javagrails/jwtrbac.git (fetch)
+origin	git@github.com-javagrails:javagrails/jwtrbac.git (push)
+user@userpc:~/hubsalman/jwtrbac (develop) $ gl develop
+From github.com-javagrails:javagrails/jwtrbac
+ * branch            develop    -> FETCH_HEAD
+Already up-to-date.
+user@userpc:~/hubsalman/jwtrbac (develop) $ git config --list
+user.name=sAlEh
+user.email=saleh@default-git-account.com
+color.ui=auto
+core.excludesfile=/home/salman/.gitignore_global
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=git@github.com-javagrails:javagrails/jwtrbac.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+user.email=salman1m22@gmail.com
+user.name=salman_at_github
+user@userpc:~/hubsalman/jwtrbac (develop) $
+
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
