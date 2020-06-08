@@ -1,0 +1,197 @@
+DEFAULT_MIN = 0
+
+enum Language {
+  AR, EN
+}
+
+enum AnswerType {
+  TEXT, IMAGE, AUDIO, VIDEO, EMBED, DOCUMENT
+}
+
+enum QuestionType {
+  // this enum usess in two different entities (Question-type, CandidateResponse-questionType)
+  RADIO, CHECKBOX, TEXT, FILE
+}
+
+enum AttachmentType {
+  // allowed file extention jpg, png, gif, mp3, mp4, embed content
+  // this enum usess in two different entities (Question-contentType, fileType)
+  IMAGE, AUDIO, VIDEO, EMBED, DOCUMENT
+}
+
+enum AssessmentType {
+ // this enum usess in three different entities (Question-assessmentType, Assessment-type, AssessmentResult-type)
+ COGNITIVE, INTERESTS, PERSONALITY, VALUES, PRE_SCREENING, SKILLS
+}
+
+enum AssessmentStatus {
+  ACTIVE, DRAFT, ARCHIVED
+}
+
+enum QuestionStatus {
+  ACTIVE, DRAFT, ARCHIVED
+}
+
+entity Config {
+  titleEn String required maxlength(50),
+  titleAr String maxlength(150),
+  key String required maxlength(50) unique,
+  valueEn String maxlength(5000),
+  valueAr String maxlength(16400),
+  active Boolean
+}
+
+entity Industry {
+  titleEn String required maxlength(100) unique,
+  titleAr String maxlength(300),
+  descriptionEn String maxlength(1000),
+  descriptionAr String maxlength(3000),
+  active Boolean
+}
+
+entity DifficultyLevel {
+  // default values are Very Difficult, Difficult, Moderate Difficulty, Easy
+  titleEn String required maxlength(50),
+  titleAr String maxlength(150),
+  active Boolean
+}
+
+entity Assessment {
+  titleEn String required maxlength(100),
+  titleAr String maxlength(300),
+  status AssessmentStatus,
+  type AssessmentType,
+  scoringMechanism String maxlength(300),
+  contentJson String maxlength(300000),
+  testsTaken Integer,
+  timeLimit Integer min(DEFAULT_MIN),
+  totalQuestions Integer min(DEFAULT_MIN),
+
+  externalOrgId Long,
+  externalUserId Long
+}
+
+entity Skill {
+  nameEn String required maxlength(100),
+  nameAr String maxlength(400),
+  descriptionEn String maxlength(2000),
+  descriptionAr String maxlength(6000),
+  active Boolean,
+
+  externalOrgId Long,
+  externalUserId Long
+}
+
+entity SkillTag {
+  nameEn String required maxlength(50),
+  nameAr String maxlength(150),
+  descriptionEn String maxlength(500),
+  descriptionAr String maxlength(1500),
+  active Boolean
+}
+
+entity ResponsibilityLevel {
+    rank Integer required,
+    nameEn String required maxlength(100) unique,
+    nameAr String maxlength(400),
+
+    autonomyEn String maxlength(2000),
+    autonomyAr String maxlength(6000),
+    influenceEn String maxlength(2000),
+    influenceAr String maxlength(6000),
+    complexityEn String maxlength(2000),
+    complexityAr String maxlength(6000),
+    knowledgeEn String maxlength(2000),
+    knowledgeAr String maxlength(6000),
+    businessSkillsEn String maxlength(2000),
+    businessSkillsAr String maxlength(6000),
+    active Boolean
+}
+
+entity Question {
+  // in this entity titleEn/titleAr will be required and it apply from UI according to the Language selection
+  titleEn String maxlength(10000),
+  titleAr String maxlength(30000),
+  instructionEn String maxlength(1000),
+  instructionAr String maxlength(3000),
+  assessmentType AssessmentType,
+   // below two property will be needed when question will have any imageUrl, audioUrl, videoUrl, embedUrl like big car
+  contentType AttachmentType,
+  contentUrl String maxlength(2000),
+  contentUrlAr String maxlength(2000),
+
+  // below two property will be needed when a question expecting an attachment as answer from candidate
+  type QuestionType,
+  // question type FILE and attachment type are IMAGE, AUDIO, VIDEO, EMBED, DOCUMENT as a response from candidate here we will not show EMBED may be
+  fileType AttachmentType,
+
+   // time limit will be calculated in seconds
+  timeLimit Integer min(DEFAULT_MIN),
+  score Float min(DEFAULT_MIN),
+  status QuestionStatus,
+  // optionType are TEXT, IMAGE, AUDIO, VIDEO, EMBED, DOCUMENT here we will not show EMBED may be
+  optionType AnswerType,
+  optionJson String maxlength(5000),
+
+  identifier Long, // used for s3 bucket
+  usages Long,
+  tempFileName String maxlength(500),
+  tempFileUrl String maxlength(1000),
+  tempComaSepSkillTags String maxlength(1500),
+  externalOrgId Long,
+  externalUserId Long
+}
+
+entity CandidateResponse {
+  // no audit
+  // expected value of content will be TEXT (answerEn/answerAr obtain by relationship) and sometimes it will be a FILE url/answerUrl
+  content String maxlength(200000),
+  assessmentType AssessmentType,
+  score Float min(DEFAULT_MIN),
+  possibleHighestScore Float min(DEFAULT_MIN),
+  start Instant,
+  end Instant,
+  totalQuestions Integer,
+  totalCorrectAnswers Integer,
+  totalUnAnswered Integer,
+  identifier Long,
+
+  externalOrgId Long required,
+  externalCandidateId Long required,
+  externalAssessmentId Long required,
+  externalJobRoleId Long required
+  // schedule_id will be a relation
+}
+
+entity Schedule {
+  // no audit
+  // name pattern may be like parentApp_jobRoleId_candidateId_usaAssessmentId_tmAssessmentId_time
+  // key is unique for each assessment of a candidate
+  name String required maxlength(512),
+  key UUID unique,
+
+  externalOrgId Long,
+  externalUserId Long
+}
+
+relationship ManyToOne {
+  CandidateResponse{assessment(titleEn)} to Assessment,
+  Question{difficultyLevel(titleEn)} to DifficultyLevel,
+  Question{skill(nameEn)} to Skill,
+  CandidateResponse{schedule(key)} to Schedule
+}
+
+relationship ManyToMany {
+  Skill{industry(titleEn)} to Industry{skill(nameEn)},
+  Assessment{industry(titleEn)} to Industry{assessment(titleEn)},
+  Question{skillTag(nameEn)} to SkillTag{question(titleEn)},
+  Assessment{question(titleEn)} to Question{assessment(titleEn)},
+  Skill{skillTag(nameEn)} to SkillTag{skill(nameEn)}
+}
+
+// configuration for generator
+paginate * with pagination
+dto * with mapstruct except User
+service * with serviceClass except User
+filter *
+
