@@ -16,7 +16,8 @@ export class AuthServerProvider {
   constructor(private http: HttpClient, private $localStorage: LocalStorageService, private $sessionStorage: SessionStorageService) {}
 
   getToken(): string {
-    return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken') || '';
+    // return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken') || '';
+    return this.$localStorage.retrieve('authenticationToken');
   }
 
   login(credentials: Login): Observable<void> {
@@ -28,17 +29,34 @@ export class AuthServerProvider {
   logout(): Observable<void> {
     return new Observable(observer => {
       this.$localStorage.clear('authenticationToken');
-      this.$sessionStorage.clear('authenticationToken');
+      // this.$sessionStorage.clear('authenticationToken');
       observer.complete();
     });
   }
 
   private authenticateSuccess(response: JwtToken, rememberMe: boolean): void {
     const jwt = response.id_token;
+    console.log('=====================response=====================');
+    console.log(response);
+    console.log('=====================jwt=====================');
+    console.log(jwt);
+    console.log(rememberMe);
+    /*
     if (rememberMe) {
       this.$localStorage.store('authenticationToken', jwt);
     } else {
       this.$sessionStorage.store('authenticationToken', jwt);
     }
+    */
+    this.$localStorage.store('authenticationToken', jwt);
   }
+
+  /* function authenticateSuccess(resp) {
+    const bearerToken = resp.headers.get('Authorization');
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+      const jwt = bearerToken.slice(7, bearerToken.length);
+      this.$localStorage.store('authenticationToken', jwt);
+      return jwt;
+    }
+  }*/
 }

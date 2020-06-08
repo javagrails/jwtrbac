@@ -33,9 +33,24 @@ https://github.com/javagrails/sql-to-jdl
 ===================================================================================================
 ===================================================================================================
 ===================================================================================================
+/home/salman/hubsalman/jwtrbac/src/main/webapp/app/blocks/interceptor/auth.interceptor.ts
+Authorization: 'Bearer ' + token
 ===================================================================================================
+*** https://www.chaseadams.io/posts/eslint-disable-rule-by-comment-generator
+https://eslint.org/docs/rules/spaced-comment
 ===================================================================================================
+eslint --fix src/main/webapp/app/core/auth/auth-jwt.service.ts
+https://eslint.org/docs/2.0.0/rules/spaced-comment
+
+
+https://github.com/eslint/eslint/issues/9898
+
 ===================================================================================================
+jwtrbac/.eslintrc.json
+
+https://laracasts.com/discuss/channels/vue/how-to-disable-unexpected-console-statement-error
+https://eslint.org/docs/rules/no-console.html
+
 ===================================================================================================
 user@userpc:~/hubsalman $ git clone git@github.com-javagrails:javagrails/jwtrbac.git
 Cloning into 'jwtrbac'...
