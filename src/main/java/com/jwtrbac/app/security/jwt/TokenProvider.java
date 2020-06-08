@@ -1,11 +1,14 @@
 package com.jwtrbac.app.security.jwt;
 
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.crypto.SealedObject;
 
+import com.jwtrbac.app.web.rest.vm.HeaderInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +30,7 @@ public class TokenProvider {
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
+    private static final String RBAC_KEY        = "rbac";
 
     private Key key;
 
@@ -61,6 +65,7 @@ public class TokenProvider {
     }
 
     public String createToken(Authentication authentication, boolean rememberMe) {
+        // @todo - Salman
         String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
@@ -73,12 +78,27 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
 
+        List<HeaderInfo> customInfo = customInfo();
+        //SealedObject     encrypt    = EDOWithDES.encrypt((Serializable) customInfo);
+
         return Jwts.builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
+            .claim(RBAC_KEY, customInfo)
             .signWith(key, SignatureAlgorithm.HS512)
             .setExpiration(validity)
             .compact();
+    }
+
+    private List<HeaderInfo> customInfo() {
+        List<HeaderInfo> headerInfos = new ArrayList<>();
+        HeaderInfo       headerInfo1 = new HeaderInfo(1l, "key1", "value1");
+        HeaderInfo       headerInfo2 = new HeaderInfo(2l, "key2", "value2");
+        HeaderInfo       headerInfo3 = new HeaderInfo(3l, "key3", "value3");
+        headerInfos.add(headerInfo1);
+        headerInfos.add(headerInfo2);
+        headerInfos.add(headerInfo3);
+        return headerInfos;
     }
 
     public Authentication getAuthentication(String token) {
@@ -88,6 +108,9 @@ public class TokenProvider {
             .parseClaimsJws(token)
             .getBody();
 
+        Object rbacValue = claims.get(RBAC_KEY);
+        //Object decrypt   = EDOWithDES.decrypt(rbacValue);
+        System.out.println("-----");
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)

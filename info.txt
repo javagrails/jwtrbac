@@ -32,6 +32,22 @@ https://github.com/javagrails/sql-to-jdl
 ===================================================================================================
 ===================================================================================================
 ===================================================================================================
+https://www.javacodegeeks.com/2015/06/auto-encrypting-serializable-classes.html
+https://examples.javacodegeeks.com/core-java/crypto/encrypt-decrypt-object-with-des/
+https://www.codota.com/code/java/classes/javax.crypto.SealedObject
+https://codereview.stackexchange.com/questions/66889/encrypt-and-decrypt-a-serializable-object
+
+
+https://www.google.com/search?client=ubuntu&hs=Oc5&ei=B4neXoybEdyX4-EPgYG8uAI&q=encrypt+and+decrypt+serializable+object+list+in+java&oq=encrypt+and+decrypt+serializeable+object+list+ij&gs_lcp=CgZwc3ktYWIQAxgAMgcIIRAKEKABOgQIABBHOgUIABCRAjoECAAQQzoFCAAQsQM6BQgAEIMBOgIIADoICAAQFhAKEB46BggAEBYQHjoICCEQFhAdEB46BQghEKABOgQIIRAVUN-NDFjYyg1gweINaAhwAXgAgAGoAYgBuDCSAQQwLjQzmAEAoAEBqgEHZ3dzLXdpeg&sclient=psy-ab
+http://czetsuya-tech.blogspot.com/2017/10/how-to-encrypt-and-decrypt-object-in.html
+https://gist.github.com/stevemu/5f1cdaabe58648f760a9f750f8d5155f
+
+https://www.google.com/search?q=java+jwt+claim+set+encrypted+objects&oq=java+jwt+claim+set+encrypted+objects&aqs=chrome..69i57j69i64.19287j0j7&client=ubuntu&sourceid=chrome&ie=UTF-8
+https://connect2id.com/products/nimbus-jose-jwt/examples/jwt-with-rsa-encryption
+https://developer.okta.com/blog/2018/10/31/jwts-with-java
+https://jwt.io/introduction
+https://jose.readthedocs.io/en/latest
+
 ===================================================================================================
 /home/salman/hubsalman/jwtrbac/src/main/webapp/app/blocks/interceptor/auth.interceptor.ts
 Authorization: 'Bearer ' + token
