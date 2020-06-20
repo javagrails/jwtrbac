@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <!--
+        Added the entity UserRM. 10191024120825-1
+    -->
+    <changeSet id="10191024120825-1" author="salman">
+        <createTable tableName="user_rm">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="service_id" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="url" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="http_method" type="varchar(10)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="combine" type="varchar(2000)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="combine_hash" type="varchar(3000)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="active" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="10191024120825-1-data" author="salman">
+        <comment>MESSAGE :: Inserting user_rm default data</comment>
+        <sql>SET search_path = public;</sql>
+        <sqlFile dbms="postgresql, h2" encoding="utf8" relativeToChangelogFile="true"
+                 path="../sql/user_rm_default_data_insert.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

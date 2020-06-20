@@ -1,14 +1,14 @@
 package com.jwtrbac.app.security.jwt;
 
-import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.*;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.crypto.SealedObject;
-
 import com.jwtrbac.app.web.rest.vm.HeaderInfo;
+import com.jwtrbac.app.domain.UserRM;
+import io.github.jhipster.config.JHipsterProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,10 +19,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import io.github.jhipster.config.JHipsterProperties;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import javax.annotation.PostConstruct;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class TokenProvider {
@@ -66,9 +67,20 @@ public class TokenProvider {
 
     public String createToken(Authentication authentication, boolean rememberMe) {
         // @todo - Salman
+        List<UserRM> rbacs = new ArrayList<>();
         String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
+
+        /*List<R> collect = new ArrayList<>();
+        for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
+            R rbac = OpenAuthority.getRbac(grantedAuthority);
+            rbacs.add(rbac);
+        }*/
+
+        /*rbacs = authentication.getAuthorities().stream()
+            .map(authority -> ((CustomGrantedAuthority) authority).getRbac())
+            .collect(Collectors.toList());*/
 
         long now = (new Date()).getTime();
         Date validity;
@@ -83,7 +95,7 @@ public class TokenProvider {
 
         return Jwts.builder()
             .setSubject(authentication.getName())
-            .claim(AUTHORITIES_KEY, authorities)
+            .claim(AUTHORITIES_KEY, rbacs) //authorities
             .claim(RBAC_KEY, customInfo)
             .signWith(key, SignatureAlgorithm.HS512)
             .setExpiration(validity)

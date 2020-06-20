@@ -29,8 +29,40 @@ https://github.com/javagrails/sql-to-jdl
 ===================================================================================================
 ===================================================================================================
 ===================================================================================================
+1234 = $2a$10$ymudevtmKuFbIFuNQhIIwerqmDb.NYQTzC/BVOlvou18oleXPj6tq
+1234 = $2a$10$E1HlRujh8DnsI6fw/bi4iu3O0sU4v1ZOM3N1ybmmb8Mds3iPl0.MW
+
 ===================================================================================================
-===================================================================================================
+org.springframework.security.authentication.AbstractAuthenticationToken
+org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
+org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+org.springframework.security.authentication.ProviderManager
+
+=================================== Spring Security ===============================================
+https://blog.invivoo.com/secure-application-spring-boot-spring-security/
+*** https://ducmanhphan.github.io/2019-02-09-The-mechanism-of-spring-security/
+*** https://www.marcobehler.com/guides/spring-security
+https://mkyong.com/spring-security/spring-security-form-login-using-database/
+
+look at this scenario I want to adopt this by Spring Security can you help me by giving any idea. let's say __
+1. Here [@Override protected void configure(HttpSecurity http)] we can apply antMatchers like [.antMatchers(HttpMethod.GET, "/api/countries/**").permitAll()] as we know it is a GET request. AND
+2. Country creation REST api method we annotate security like this [@PostMapping("/api/countries") @Secured({"ROLE_ADMIN","ROLE_SUPPORT_ADMIN"})
+public ResponseEntity<CountryDTO> createCountry(@Valid @RequestBody CountryDTO countryDTO)]
+
+So here every thing is hard coded. we are saying if it is GET [ api/countries ] then permit all and if it is POST [ api/countries ] then only allow those user who has authority role [ ROLE_ADMIN, ROLE_SUPPORT_ADMIN]. So let's say if I want to add a role [ROLE_CHECKER] then I have to place it in the Secured annotation then database table and alos I have to deploy the app.
+
+A. But I wan to check all these authorization run tine on fly when a request api click by the user and it enters in the app for that I try to build a Filter (which capture api url and check with the user's permited api url from database table. see the table structure below) but I can not fit it right palce of spring security config.
+Look the table here rows are permited for the user
+
+id|user_id|api_url|method
+1|1|api/countries|get
+1|1|api/countries|post
+1|1|api/countries|put
+1|2|api/countries|delete
+
+B. One more problem and also only interface GrantedAuthority has only one method [String getAuthority()] which can return String only
+
 ===================================================================================================
 https://www.javacodegeeks.com/2015/06/auto-encrypting-serializable-classes.html
 https://examples.javacodegeeks.com/core-java/crypto/encrypt-decrypt-object-with-des/
