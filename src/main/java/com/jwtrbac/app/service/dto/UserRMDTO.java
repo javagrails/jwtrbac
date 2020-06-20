@@ -1,54 +1,41 @@
-package com.jwtrbac.app.domain;
+package com.jwtrbac.app.service.dto;
 
 import com.jwtrbac.app.domain.enumeration.HttpMethod;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 
-@Entity
-@Table(name = "user_rm")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class UserRM implements Serializable {
+/**
+ * A DTO for the {@link com.jwtrbac.app.domain.UserRM} entity.
+ */
+public class UserRMDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Size(max = 50)
-    @Column(name = "service_id", length = 50)
     private String serviceId;
 
     @Size(max = 512)
-    @Column(name = "url", length = 512)
     private String url;
 
-    @Enumerated(EnumType.STRING)
     @Size(max = 10)
-    @Column(name = "http_method", length = 10)
     private HttpMethod httpMethod;
 
     @NotNull
-    @Column(nullable = false)
     private boolean active = false;
 
     @Size(max = 2000)
-    @Column(name = "combine", length = 2000)
     private String combine;
 
     @Size(max = 3000)
-    @Column(name = "combine_hash", length = 3000)
     private String combineHash;
 
     public Long getId() {
@@ -121,17 +108,10 @@ public class UserRM implements Serializable {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserRM userRM = (UserRM) o;
+        UserRMDTO userRMDTO = (UserRMDTO) o;
 
         return new EqualsBuilder()
-            .append(active, userRM.active)
-            .append(id, userRM.id)
-            .append(userId, userRM.userId)
-            .append(serviceId, userRM.serviceId)
-            .append(url, userRM.url)
-            .append(httpMethod, userRM.httpMethod)
-            .append(combine, userRM.combine)
-            .append(combineHash, userRM.combineHash)
+            .append(id, userRMDTO.id)
             .isEquals();
     }
 
@@ -139,19 +119,12 @@ public class UserRM implements Serializable {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
             .append(id)
-            .append(userId)
-            .append(serviceId)
-            .append(url)
-            .append(httpMethod)
-            .append(active)
-            .append(combine)
-            .append(combineHash)
             .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "UserRM{" +
+        return "UserRMDTO{" +
             "id=" + id +
             ", userId=" + userId +
             ", serviceId='" + serviceId + '\'' +

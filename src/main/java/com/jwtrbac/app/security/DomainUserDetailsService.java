@@ -1,10 +1,10 @@
 package com.jwtrbac.app.security;
 
 import com.jwtrbac.app.domain.User;
-import com.jwtrbac.app.domain.enumeration.HttpMethod;
+import com.jwtrbac.app.domain.UserRM;
+import com.jwtrbac.app.repository.UserRMRepository;
 import com.jwtrbac.app.repository.UserRepository;
 import com.jwtrbac.app.security.jwt.OpenAuthority;
-import com.jwtrbac.app.domain.UserRM;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -27,8 +28,11 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public DomainUserDetailsService(UserRepository userRepository) {
+    private final UserRMRepository userRMRepository;
+
+    public DomainUserDetailsService(UserRepository userRepository, UserRMRepository userRMRepository) {
         this.userRepository = userRepository;
+        this.userRMRepository = userRMRepository;
     }
 
     @Override
@@ -76,7 +80,7 @@ public class DomainUserDetailsService implements UserDetailsService {
             .collect(Collectors.toList());*/
 
 
-        List<UserRM> userRMS = permissionsFromDatabase();
+        List<UserRM> userRMS = retrieveAllPermissionsOfLoggedInUser(user);
         List<OpenAuthority> authorities = user.getAuthorities().stream()
             .map(authority -> new OpenAuthority(authority.getName(), userRMS))
             .collect(Collectors.toList());
@@ -87,21 +91,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         return user1;
     }
 
-    private List<UserRM> permissionsFromDatabase() {
-        List<UserRM> permissions = new ArrayList<>();
-        // Long id, String userId, String url, HttpMethod httpMethod
-        UserRM userRM1 = new UserRM(1l, 1l, "api/countries/**", HttpMethod.GET);
-        UserRM userRM2 = new UserRM(2l, 2l, "api/countries/**", HttpMethod.POST);
-        UserRM userRM3 = new UserRM(3l, 3l, "api/countries/**", HttpMethod.PUT);
-        UserRM userRM4 = new UserRM(4l, 4l, "api/countries/**", HttpMethod.DELETE);
-        UserRM userRM5 = new UserRM(5l, 5l, "api/countries/**", HttpMethod.OPTIONS);
-
-        permissions.add(userRM1);
-        permissions.add(userRM2);
-        permissions.add(userRM3);
-        permissions.add(userRM4);
-        permissions.add(userRM5);
-
-        return permissions;
+    private List<UserRM> retrieveAllPermissionsOfLoggedInUser(User user) {
+        return userRMRepository.findAllByUserId(user.getId());
     }
 }
