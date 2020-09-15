@@ -1,12 +1,9 @@
 package com.jwtrbac.app.web.rest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jwtrbac.app.security.jwt.JWTFilter;
 import com.jwtrbac.app.security.jwt.TokenProvider;
-import com.jwtrbac.app.web.rest.vm.HeaderInfo;
 import com.jwtrbac.app.web.rest.vm.LoginVM;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Controller to authenticate users.
@@ -57,18 +54,8 @@ public class UserJWTController {
 
         private String idToken;
 
-        //private List<HeaderInfo> headerInfos = new ArrayList<>();
-
         JWTToken(String idToken) {
             this.idToken = idToken;
-
-            /*HeaderInfo headerInfo1 = new HeaderInfo(1l, "key1", "value1");
-            HeaderInfo headerInfo2 = new HeaderInfo(2l, "key2", "value2");
-            HeaderInfo headerInfo3 = new HeaderInfo(3l, "key3", "value3");
-            headerInfos.add(headerInfo1);
-            headerInfos.add(headerInfo2);
-            headerInfos.add(headerInfo3);*/
-
         }
 
         @JsonProperty("id_token")
@@ -79,14 +66,5 @@ public class UserJWTController {
         void setIdToken(String idToken) {
             this.idToken = idToken;
         }
-
-        /*@JsonProperty("header_infos")
-        public List<HeaderInfo> getHeaderInfos() {
-            return headerInfos;
-        }
-
-        public void setHeaderInfos(List<HeaderInfo> headerInfos) {
-            this.headerInfos = headerInfos;
-        }*/
     }
 }

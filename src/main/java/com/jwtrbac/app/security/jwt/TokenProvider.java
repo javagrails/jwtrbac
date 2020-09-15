@@ -1,6 +1,5 @@
 package com.jwtrbac.app.security.jwt;
 
-import com.jwtrbac.app.web.rest.vm.HeaderInfo;
 import com.jwtrbac.app.domain.UserRM;
 import io.github.jhipster.config.JHipsterProperties;
 import io.jsonwebtoken.Claims;
@@ -31,7 +30,7 @@ public class TokenProvider {
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
-    private static final String RBAC_KEY        = "rbac";
+    private static final String RBACS_KEY       = "rbacs";
 
     private Key key;
 
@@ -72,15 +71,10 @@ public class TokenProvider {
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
 
-        /*List<R> collect = new ArrayList<>();
-        for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
-            R rbac = OpenAuthority.getRbac(grantedAuthority);
-            rbacs.add(rbac);
-        }*/
-
-        /*rbacs = authentication.getAuthorities().stream()
-            .map(authority -> ((CustomGrantedAuthority) authority).getRbac())
-            .collect(Collectors.toList());*/
+        OpenAuthority openAuthority = (OpenAuthority) authentication.getAuthorities().stream().findFirst().get();
+        if (openAuthority != null && !openAuthority.getRbac().isEmpty()) {
+            rbacs = openAuthority.getRbac();
+        }
 
         long now = (new Date()).getTime();
         Date validity;
@@ -90,27 +84,13 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
 
-        List<HeaderInfo> customInfo = customInfo();
-        //SealedObject     encrypt    = EDOWithDES.encrypt((Serializable) customInfo);
-
         return Jwts.builder()
             .setSubject(authentication.getName())
-            .claim(AUTHORITIES_KEY, rbacs) //authorities
-            .claim(RBAC_KEY, customInfo)
+            .claim(AUTHORITIES_KEY, authorities)
+            .claim(RBACS_KEY, rbacs)
             .signWith(key, SignatureAlgorithm.HS512)
             .setExpiration(validity)
             .compact();
-    }
-
-    private List<HeaderInfo> customInfo() {
-        List<HeaderInfo> headerInfos = new ArrayList<>();
-        HeaderInfo       headerInfo1 = new HeaderInfo(1l, "key1", "value1");
-        HeaderInfo       headerInfo2 = new HeaderInfo(2l, "key2", "value2");
-        HeaderInfo       headerInfo3 = new HeaderInfo(3l, "key3", "value3");
-        headerInfos.add(headerInfo1);
-        headerInfos.add(headerInfo2);
-        headerInfos.add(headerInfo3);
-        return headerInfos;
     }
 
     public Authentication getAuthentication(String token) {
@@ -120,9 +100,9 @@ public class TokenProvider {
             .parseClaimsJws(token)
             .getBody();
 
-        Object rbacValue = claims.get(RBAC_KEY);
+        //Object rbacValue = claims.get(RBACS_KEY);
         //Object decrypt   = EDOWithDES.decrypt(rbacValue);
-        System.out.println("-----");
+        //System.out.println("-----");
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
